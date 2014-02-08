@@ -25,8 +25,8 @@ public class StringInterner {
      * Construct StringInterner with default options
      */
     public StringInterner() {
-        forwardMap = new HashMap<>();
-        reverseMap = new HashMap<>();
+        forwardMap = new HashMap<>(256);
+        reverseMap = new HashMap<>(256);
     }
 
     /**

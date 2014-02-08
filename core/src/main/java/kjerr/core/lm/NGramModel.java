@@ -68,13 +68,14 @@ public class NGramModel {
         // when the sequence is shorter than the given ngram length
         // we need to add the smaller n-grams from k = n-1 all the way
         // down to k = 1
-        int limit = min(ngramLength, sequence.length+1);
+        int limit = min(ngramLength, sequence.length+1) - 1;
 
-        for(int k = 1; k < limit; k++ ) {
+        for(int k = limit ; k > 0; k-- ) {
             int[] buffer = new int[k];
-            for(int n = 0; n < k; n++ ) {
-                buffer[k-(n+1)] = sequence[sequence.length - (n + 1)];
+            for(int n = 1; n <= k; n++ ) {
+                buffer[k-n] = sequence[sequence.length - n];
             }
+
             grams.add(buffer);
         }
 

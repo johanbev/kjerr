@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotSame;
 
-public class CodeBookTest {
+public class StringInternerTest {
     @Test
     public void testCodeBook() throws Exception {
         StringInterner stringInterner = new StringInterner();

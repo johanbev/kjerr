@@ -128,7 +128,7 @@ public class CountTree {
     /**
      * A node in the CountTree
      */
-    final class CountTreeNode {
+    final static class CountTreeNode {
         private int count;
 
 
