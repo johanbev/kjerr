@@ -9,6 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/TT</directory>
+            </testResource>
+        </testResources>
+    </build>
+
     <artifactId>core</artifactId>
     <dependencies>
         <dependency>
@@ -33,6 +41,8 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+
 
 
 </project>

@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class CountTree {
 
-    private CountTreeNode root;
+    final private CountTreeNode root = new CountTreeNode();
 
     /**
      * Construct CountTree with default options
      */
     public CountTree() {
-        setRoot(new CountTreeNode());
+
         getRoot().setCount(0);
         getRoot().setChildren(new Int2ObjectArrayMap<CountTreeNode>(32));
     }
@@ -120,9 +120,6 @@ public class CountTree {
         return root;
     }
 
-    public void setRoot(CountTreeNode root) {
-        this.root = root;
-    }
 
 
     /**
