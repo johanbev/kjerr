@@ -1,62 +1,64 @@
 package kjerr.core.lm;
 
 import org.testng.annotations.Test;
-import static org.testng.AssertJUnit.*;
+
+import static org.testng.AssertJUnit.assertEquals;
 
 
 public class CountTreeTest {
 
-    private static final double EPSILON = 0.00001d;
-    @Test
-    public void testUnigram() throws Exception {
-        CountTree countTree = new CountTree();
-        countTree.addUnigram(1);
-        countTree.addUnigram(2);
-        countTree.addUnigram(3);
+  private static final double EPSILON = 0.00001d;
 
-        assertEquals("Wrong total", countTree.getRoot().getCount(),3);
-        assertEquals("Wrong prob",  (1.0d/3), countTree.queryUnigram(1), EPSILON);
+  @Test
+  public void testUnigram() throws Exception {
+    CountTree countTree = new CountTree();
+    countTree.addUnigram(1);
+    countTree.addUnigram(2);
+    countTree.addUnigram(3);
 
-        CountTree countTree2 = new CountTree();
-        countTree2.addUnigram(1);
-        countTree2.addUnigram(1);
-        countTree2.addUnigram(3);
+    assertEquals("Wrong total", countTree.getRoot().getCount(), 3);
+    assertEquals("Wrong prob", (1.0d / 3), countTree.queryUnigram(1), EPSILON);
 
-        assertEquals("Wrong total", countTree2.getRoot().getCount(),3);
-        assertEquals("Wrong prob",  (2.0d/3), countTree2.queryUnigram(1), EPSILON);
-    }
+    CountTree countTree2 = new CountTree();
+    countTree2.addUnigram(1);
+    countTree2.addUnigram(1);
+    countTree2.addUnigram(3);
 
-    @Test
-    public void testBigram() throws Exception {
-        CountTree countTree = new CountTree();
+    assertEquals("Wrong total", countTree2.getRoot().getCount(), 3);
+    assertEquals("Wrong prob", (2.0d / 3), countTree2.queryUnigram(1), EPSILON);
+  }
 
-        countTree.addBigram(1,1);
-        countTree.addBigram(1,1);
-        countTree.addBigram(1,3);
-        countTree.addBigram(2,3);
-        countTree.addBigram(2,4);
-        countTree.addBigram(4,5);
+  @Test
+  public void testBigram() throws Exception {
+    CountTree countTree = new CountTree();
 
-        countTree.addUnigram(5);
-        countTree.addUnigram(6);
+    countTree.addBigram(1, 1);
+    countTree.addBigram(1, 1);
+    countTree.addBigram(1, 3);
+    countTree.addBigram(2, 3);
+    countTree.addBigram(2, 4);
+    countTree.addBigram(4, 5);
 
-        assertEquals("Wrong total", countTree.getRoot().getCount(), 8);
+    countTree.addUnigram(5);
+    countTree.addUnigram(6);
 
-        assertEquals("Wrong prob", (2.0d)/3, countTree.queryBigram(1,1));
-        assertEquals("Wrong prob", (3.0d)/8, countTree.queryUnigram(1));
-    }
+    assertEquals("Wrong total", countTree.getRoot().getCount(), 8);
 
-    @Test
-    public void testTrigram() throws Exception {
-        CountTree countTree = new CountTree();
+    assertEquals("Wrong prob", (2.0d) / 3, countTree.queryBigram(1, 1));
+    assertEquals("Wrong prob", (3.0d) / 8, countTree.queryUnigram(1));
+  }
 
-        countTree.addTrigram(1,1,1);
-        countTree.addTrigram(1,1,1);
-        countTree.addTrigram(1,1,2);
-        countTree.addTrigram(1,1,3);
+  @Test
+  public void testTrigram() throws Exception {
+    CountTree countTree = new CountTree();
 
-        assertEquals("Wrong total", countTree.getRoot().getCount(), 4);
-        assertEquals("Wrong prob", (2.0d)/4, countTree.queryTrigram(1,1,1));
+    countTree.addTrigram(1, 1, 1);
+    countTree.addTrigram(1, 1, 1);
+    countTree.addTrigram(1, 1, 2);
+    countTree.addTrigram(1, 1, 3);
 
-    }
+    assertEquals("Wrong total", countTree.getRoot().getCount(), 4);
+    assertEquals("Wrong prob", (2.0d) / 4, countTree.queryTrigram(1, 1, 1));
+
+  }
 }

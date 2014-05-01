@@ -3,9 +3,9 @@ package kjerr.core.hmm;
 import kjerr.core.Distribution;
 
 public class State {
-    int stateId;
+  int stateId;
 
-    Distribution emissions;
-    Distribution transitions;
+  Distribution emissions;
+  Distribution transitions;
 
 }
