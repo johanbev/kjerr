@@ -58,7 +58,45 @@ public class CountTreeTest {
     countTree.addTrigram(1, 1, 3);
 
     assertEquals("Wrong total", countTree.getRoot().getCount(), 4);
-    assertEquals("Wrong prob", (2.0d) / 4, countTree.queryTrigram(1, 1, 1));
+    assertEquals("Wrong prob", (2.0d) / 4, countTree.queryTrigram(1, 1, 1), EPSILON);
 
+  }
+
+  @Test
+  public void testFind() {
+    CountTree countTree = new CountTree();
+
+    countTree.addTrigram(1,2,3);
+    countTree.addTrigram(1,2,1);
+    countTree.addTrigram(3,1,3);
+
+    CountTree.CountTreeNode ctn = countTree.find(new int[]{1});
+    assertEquals("Wrong node", ctn.getCount(), 2);
+
+    ctn = countTree.find(new int[]{1,2});
+    assertEquals("Wrong node", ctn.getCount(), 2);
+
+    ctn = countTree.find(new int[]{1,2,3});
+    assertEquals("Wrong node", ctn.getCount(), 1);
+  }
+
+  @Test
+  public void testSequence() {
+    CountTree countTree = new CountTree();
+
+    countTree.addSequence(new int[]{1,2,3});
+    countTree.addTrigram(1,2,3);
+    countTree.addTrigram(1,2,4);
+
+    assertEquals("Wrong prob", (2.0d) / 3, countTree.queryTrigram(1, 2, 3),  EPSILON);
+
+
+    countTree = new CountTree();
+
+    countTree.addSequence(new int[]{1,2,3,4,5});
+    countTree.addSequence(new int[]{1,2,3,4,5});
+    countTree.addSequence(new int[]{1,2,3,4,6});
+
+    assertEquals("Wrong prob", (2.0d) / 3, countTree.querySequence(new int[]{1,2,3,4,5}),  EPSILON);
   }
 }

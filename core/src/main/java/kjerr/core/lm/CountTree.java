@@ -3,11 +3,12 @@ package kjerr.core.lm;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
+
 import java.util.Map;
 
 
 /**
- * CountTree for holding counts of n-gram observations
+ * CountTree for holding counts of n-gram observations. Meant to be fast, not fancy
  */
 public class CountTree {
 
@@ -22,8 +23,27 @@ public class CountTree {
     getRoot().setChildren(new Int2ObjectArrayMap<CountTreeNode>(32));
   }
 
-  public CountTree addSequence(int[] seq) {
-    return null;
+  public void addSequence(int[] seq) {
+    CountTreeNode prev = getRoot();
+
+    prev.count++;
+
+    for(int i : seq) {
+      CountTreeNode next = prev.getChildren().get(i);
+
+      if(next == null) {
+        next = new CountTreeNode();
+        prev.getChildren().put(i,next);
+        next.count = 1;
+      }
+      else {
+        next.count++;
+      }
+
+      prev = next;
+
+    }
+
   }
 
   public void addUnigram(int t1) {
@@ -82,7 +102,11 @@ public class CountTree {
   }
 
   public double querySequence(int[] sequence) {
-    return 0.0d;
+    CountTreeNode x = findButlast(sequence);
+    if(x == null)
+      return 0.0d;
+    CountTreeNode y = x.getChildren().get(sequence[sequence.length-1]);
+    return y != null ? y.getCount() / (double)x.getCount() : 0.0d;
   }
 
   public double queryUnigram(int t1) {
@@ -120,11 +144,57 @@ public class CountTree {
     return root;
   }
 
+  /**
+   * Finds the parent node to the last in sequence.
+   * findButlast(x1,...,xn-1,xn) === find(x1...xn-1)
+   *
+   * This could be done by an array offsetting on @see find but there is
+   * no way to do that easily in java.
+   *
+   * @param sequence The path to lookup
+   * @return The count tree node pointing to the last node in
+   *         the sequence
+   */
+  public CountTreeNode findButlast(int sequence[] ) {
+    CountTreeNode target = getRoot();
+    for (int i = 0; i < sequence.length-1;i++) {
+      target = target.children.get(sequence[i]);
+      if (target == null) {
+        return null;
+      }
+
+    }
+    return target;
+  }
+
 
   /**
-   * A node in the CountTree
+   * Finds the CountTreeNode at the end of the sequence
+   * @param sequence The path to lookup
+   * @return The CountTreeNode
+   */
+  public CountTreeNode find(int sequence[] ) {
+    CountTreeNode target = getRoot();
+    for (int i : sequence) {
+      target = target.children.get(i);
+      if (target == null) {
+        return null;
+      }
+
+    }
+    return target;
+  }
+
+
+  /**
+   * A node in the CountTree. Children will be held in an array map until
+   * ARRAY_MAP_LIMIT is reached.
    */
   final static class CountTreeNode {
+    /**
+     * Max size for array map
+     */
+    public static final int ARRAY_MAP_LIMIT = 64;
     private int count;
 
 
@@ -136,7 +206,7 @@ public class CountTree {
 
     public final void setCount(int count) {
       this.count = count;
-      if (count > 64 & !(children instanceof Int2ObjectOpenHashMap)) {
+      if (count > ARRAY_MAP_LIMIT & !(children instanceof Int2ObjectOpenHashMap)) {
         children = new Int2ObjectOpenHashMap<>(children);
       }
     }
