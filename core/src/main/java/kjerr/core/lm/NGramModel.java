@@ -22,8 +22,6 @@ public class NGramModel {
    * @param ngramLength The ngram size
    */
   public NGramModel(int ngramLength) {
-    if (ngramLength > 3)
-      throw new IllegalArgumentException("N must be  <= 3 (for now)");
     this.ngramLength = ngramLength;
     codeBuffer = new int[ngramLength];
     setBackingCountTree(new CountTree());
@@ -44,6 +42,9 @@ public class NGramModel {
         getBackingCountTree().addBigram(ngram[0], ngram[1]);
       if (ngram.length == 1)
         getBackingCountTree().addUnigram(ngram[0]);
+     else {
+        getBackingCountTree().addSequence(ngram);
+     }
     }
   }
 

@@ -26,7 +26,7 @@ public class CountTree {
   public void addSequence(int[] seq) {
     CountTreeNode prev = getRoot();
 
-    prev.count++;
+    prev.setCount(prev.getCount() + 1);
 
     for(int i : seq) {
       CountTreeNode next = prev.getChildren().get(i);
@@ -37,7 +37,7 @@ public class CountTree {
         next.count = 1;
       }
       else {
-        next.count++;
+        next.setCount(next.getCount()+1);
       }
 
       prev = next;
