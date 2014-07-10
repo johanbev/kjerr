@@ -25,7 +25,7 @@
             <version>15.0</version>
         </dependency>
         <dependency>
-            <groupId>apache-collections</groupId>
+            <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.1</version>
         </dependency>
@@ -39,6 +39,11 @@
             <artifactId>testng</artifactId>
             <version>6.2.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math</artifactId>
+            <version>2.2</version>
         </dependency>
     </dependencies>
 
