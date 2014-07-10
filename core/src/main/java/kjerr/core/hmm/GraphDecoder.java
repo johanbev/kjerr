@@ -35,7 +35,7 @@ public class GraphDecoder {
     }
   }
 
-  public int[] Decode(Sequence s) {
+  public int[] Decode(Sequence<Integer> s) {
 
     Node startState = new Node(m.getStartState(), 0.0d, null,0);
     pq.enqueue(startState);
@@ -48,7 +48,7 @@ public class GraphDecoder {
         return getSequenceFromNode(n);
       }
 
-      createTransitionsFrom(n,s.getPoint(n.index++, 1));
+      createTransitionsFrom(n, s.getPoint(n.index++, 1));
 
     }
 
