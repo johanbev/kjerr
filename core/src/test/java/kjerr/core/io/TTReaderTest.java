@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
 
 
 public class TTReaderTest {
@@ -41,6 +42,8 @@ public class TTReaderTest {
     assertEquals(seq1.getPoint(0, 7), "lazy");
     assertEquals(seq1.getPoint(0, 8), "dog");
     assertEquals(seq1.getPoint(0, 9), ".");
+
+    assertNull(ttr.getSequence());
   }
 
   @Test
@@ -95,5 +98,7 @@ public class TTReaderTest {
     assertEquals(seq1.getPoint(1, 7), "AD");
     assertEquals(seq1.getPoint(1, 8), "NP");
     assertEquals(seq1.getPoint(1, 9), ".");
+
+    assertNull(ttr.getSequence());
   }
 }

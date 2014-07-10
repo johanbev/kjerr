@@ -40,14 +40,25 @@ public class TTReader {
       buffer.get(i).clear();
     }
 
-    String s;
-    while ((s = br.readLine()) != null && !s.isEmpty()) {
+    String s = br.readLine();
+
+    if (s == null) { // EOF
+      return null;
+    }
+
+    while (s != null && !s.isEmpty()) {
       int i = -1;
       String[] splits = ttTokenizer.split(s);
       for (int j = 0; j < columns; j++) {
         i++;
         buffer.get(i).add(splits[j]);
       }
+
+      s = br.readLine();
+    }
+
+    if (buffer.get(0).size() == 0) { // No input read, try again
+      return getSequence();
     }
 
     String[][] seq = new String[columns][];
