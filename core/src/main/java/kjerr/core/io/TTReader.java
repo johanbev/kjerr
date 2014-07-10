@@ -22,18 +22,19 @@ public class TTReader {
   private int columns;
 
   BufferedReader br;
-  List<List<String>> buffer = new ArrayList<>(20);
 
   Pattern ttTokenizer = Pattern.compile("\\s+");
 
   private void prepareReader() throws IOException {
     br = new BufferedReader(new InputStreamReader(stream));
-    for (int i = 0; i < columns; i++) {
-      buffer.add(i, new ArrayList<>(20));
-    }
   }
 
   public Sequence<String> getSequence() throws IOException {
+    List<List<String>> buffer = new ArrayList<>(20);
+
+    for (int i = 0; i < columns; i++) {
+      buffer.add(i, new ArrayList<>(20));
+    }
 
     for (int i = 0; i < columns; i++) {
       buffer.get(i).clear();
