@@ -1,23 +1,23 @@
 package kjerr.core;
 
-public class Sequence {
+public class Sequence<T> {
   int rank;
 
-  int[][] file;
+  T[][] file;
 
-  public int getPoint(int x, int y) {
+  public T getPoint(int x, int y) {
     return file[x][y];
   }
 
-  public int[] getColumn(int x) {
+  public T[] getColumn(int x) {
     return file[x];
   }
 
-  public Sequence(int rows, int columns) {
-    file = new int[rows][columns];
+  public Sequence(T[][] file) {
+    this.file = file;
   }
 
-  public Sequence(int[][] file) {
-    this.file = file;
+  public int size() {
+    return file[0].length;
   }
 }

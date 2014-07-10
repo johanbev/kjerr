@@ -1,14 +1,14 @@
 package kjerr.core.lm;
 
-import kjerr.core.StringInterner;
+import kjerr.core.io.InternedReader;
 import kjerr.core.io.TTReader;
 
 import java.io.FileInputStream;
 
 public class LMPerfTest {
   public static void main(String[] args) throws Exception {
-    TTReader tt = new TTReader(new StringInterner[]{new StringInterner()}, 1,
-        new FileInputStream("G:\\scratch\\corp\\corp\\6M.wikiwords.corp"));
+    InternedReader tt = new InternedReader(
+            new TTReader(1, new FileInputStream("G:\\scratch\\corp\\corp\\6M.wikiwords.corp")));
 
     NGramModel ng = new NGramModel(3);
 

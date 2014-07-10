@@ -13,7 +13,7 @@ import static java.lang.Math.min;
 public class NGramModel {
 
   final private int ngramLength;
-  final private int[] codeBuffer;
+  final private Integer[] codeBuffer;
   private CountTree backingCountTree;
 
   /**
@@ -23,7 +23,7 @@ public class NGramModel {
    */
   public NGramModel(int ngramLength) {
     this.ngramLength = ngramLength;
-    codeBuffer = new int[ngramLength];
+    codeBuffer = new Integer[ngramLength];
     setBackingCountTree(new CountTree());
   }
 
@@ -32,10 +32,10 @@ public class NGramModel {
    *
    * @param sequence Sequence to be added to the LM model
    */
-  public void addSequence(int[] sequence) {
-    List<int[]> ngrams = generateNGrams(sequence);
+  public void addSequence(Integer[] sequence) {
+    List<Integer[]> ngrams = generateNGrams(sequence);
 
-    for (int[] ngram : ngrams) {
+    for (Integer[] ngram : ngrams) {
       if (ngram.length == 3)
         getBackingCountTree().addTrigram(ngram[0], ngram[1], ngram[2]);
       if (ngram.length == 2)
@@ -54,8 +54,8 @@ public class NGramModel {
    * @param sequence Sequence to split into the n-grams
    * @return List of generated n-grams for the provided sequence
    */
-  public List<int[]> generateNGrams(int[] sequence) {
-    List<int[]> grams = new ArrayList<>(sequence.length);
+  public List<Integer[]> generateNGrams(Integer[] sequence) {
+    List<Integer[]> grams = new ArrayList<>(sequence.length);
 
     // first add all the grams in a sliding window
     // we do not need to add the smaller grams to the right
@@ -75,7 +75,7 @@ public class NGramModel {
     int limit = min(ngramLength, sequence.length + 1) - 1;
 
     for (int k = limit; k > 0; k--) {
-      int[] buffer = new int[k];
+      Integer[] buffer = new Integer[k];
       for (int n = 1; n <= k; n++) {
         buffer[k - n] = sequence[sequence.length - n];
       }

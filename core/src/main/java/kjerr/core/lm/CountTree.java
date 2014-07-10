@@ -3,7 +3,6 @@ package kjerr.core.lm;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-
 import java.util.Map;
 
 
@@ -23,7 +22,7 @@ public class CountTree {
     getRoot().setChildren(new Int2ObjectArrayMap<CountTreeNode>(32));
   }
 
-  public void addSequence(int[] seq) {
+  public void addSequence(Integer[] seq) {
     CountTreeNode prev = getRoot();
 
     prev.setCount(prev.getCount() + 1);

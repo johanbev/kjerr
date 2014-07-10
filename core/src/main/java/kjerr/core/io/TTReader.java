@@ -1,8 +1,6 @@
 package kjerr.core.io;
 
-import com.google.common.primitives.Ints;
 import kjerr.core.Sequence;
-import kjerr.core.StringInterner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,34 +12,28 @@ import java.util.regex.Pattern;
 
 
 public class TTReader {
-
-
-  public TTReader(StringInterner[] stringInterners, int columns, InputStream stream) throws IOException {
-    this.stringInterners = stringInterners;
+  public TTReader(int columns, InputStream stream) throws IOException {
     this.columns = columns;
     this.stream = stream;
 
     prepareReader();
   }
 
+  private int columns;
 
-  int columns;
-  private StringInterner[] stringInterners;
-  InputStream stream;
   BufferedReader br;
-
-  List<List<Integer>> buffer = new ArrayList<>(20);
+  List<List<String>> buffer = new ArrayList<>(20);
 
   Pattern ttTokenizer = Pattern.compile("\\s+");
 
   private void prepareReader() throws IOException {
     br = new BufferedReader(new InputStreamReader(stream));
     for (int i = 0; i < columns; i++) {
-      buffer.add(i, new ArrayList<Integer>(20));
+      buffer.add(i, new ArrayList<>(20));
     }
   }
 
-  public Sequence getSequence() throws IOException {
+  public Sequence<String> getSequence() throws IOException {
 
     for (int i = 0; i < columns; i++) {
       buffer.get(i).clear();
@@ -53,17 +45,22 @@ public class TTReader {
       String[] splits = ttTokenizer.split(s);
       for (int j = 0; j < columns; j++) {
         i++;
-        buffer.get(i).add(stringInterners[i].intern(splits[j]));
+        buffer.get(i).add(splits[j]);
       }
     }
 
-    int[][] seq = new int[columns][];
+    String[][] seq = new String[columns][];
 
     for (int i = 0; i < columns; i++) {
-      seq[i] = Ints.toArray(buffer.get(i));
+      seq[i] = buffer.get(i).toArray(new String[0]);
     }
 
-    return new Sequence(seq);
+    return new Sequence<>(seq);
+  }
 
+  InputStream stream;
+
+  public int getColumns() {
+    return columns;
   }
 }

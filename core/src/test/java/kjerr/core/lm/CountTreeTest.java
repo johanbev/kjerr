@@ -84,7 +84,7 @@ public class CountTreeTest {
   public void testSequence() {
     CountTree countTree = new CountTree();
 
-    countTree.addSequence(new int[]{1,2,3});
+    countTree.addSequence(new Integer[]{1,2,3});
     countTree.addTrigram(1,2,3);
     countTree.addTrigram(1,2,4);
 
@@ -93,9 +93,9 @@ public class CountTreeTest {
 
     countTree = new CountTree();
 
-    countTree.addSequence(new int[]{1,2,3,4,5});
-    countTree.addSequence(new int[]{1,2,3,4,5});
-    countTree.addSequence(new int[]{1,2,3,4,6});
+    countTree.addSequence(new Integer[]{1,2,3,4,5});
+    countTree.addSequence(new Integer[]{1,2,3,4,5});
+    countTree.addSequence(new Integer[]{1,2,3,4,6});
 
     assertEquals("Wrong prob", (2.0d) / 3, countTree.querySequence(new int[]{1,2,3,4,5}),  EPSILON);
   }
