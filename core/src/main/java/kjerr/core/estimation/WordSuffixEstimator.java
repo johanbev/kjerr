@@ -96,7 +96,7 @@ public class WordSuffixEstimator {
   public double[] predictProba(String token) {
     double[] prob = new double[this.tags.size()];
 
-    for (int i = parameters.suffixLength; i > 0; i--) {
+    for (int i = Math.min(parameters.suffixLength, token.length()); i > 0; i--) {
       Map<String, Double> tagMap = this.probMaps.get(i-1).get(getSuffix(token, i));
 
       if (tagMap == null) {

@@ -19,6 +19,11 @@ public class WordSuffixEstimatorTest {
 
     assertEquals(0.547368, p[est.getTags().indexOf("0")], 0.001);
     assertEquals(0.452632, p[est.getTags().indexOf("1")], 0.001);
+
+    p = est.predictProba("bb");
+
+    assertEquals(0.547368, p[est.getTags().indexOf("0")], 0.001);
+    assertEquals(0.452632, p[est.getTags().indexOf("1")], 0.001);
   }
 
   @Test
