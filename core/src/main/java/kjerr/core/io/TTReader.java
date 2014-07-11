@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 
-public class TTReader {
+public class TTReader implements CorpusReader<String> {
   public TTReader(int columns, InputStream stream) throws IOException {
     this.columns = columns;
     this.stream = stream;
@@ -29,6 +29,7 @@ public class TTReader {
     br = new BufferedReader(new InputStreamReader(stream));
   }
 
+  @Override
   public Sequence<String> getSequence() throws IOException {
     List<List<String>> buffer = new ArrayList<>(20);
 
@@ -72,6 +73,7 @@ public class TTReader {
 
   InputStream stream;
 
+  @Override
   public int getColumns() {
     return columns;
   }

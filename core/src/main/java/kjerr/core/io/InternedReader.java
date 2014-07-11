@@ -5,7 +5,7 @@ import kjerr.core.StringInterner;
 
 import java.io.IOException;
 
-public class InternedReader {
+public class InternedReader implements CorpusReader<Integer> {
   private TTReader reader;
 
   private StringInterner[] interners;
@@ -23,6 +23,7 @@ public class InternedReader {
     return interners;
   }
 
+  @Override
   public Sequence<Integer> getSequence() throws IOException {
     Sequence<String> innerSeq = reader.getSequence();
 
@@ -35,5 +36,10 @@ public class InternedReader {
     }
 
     return new Sequence<>(seq);
+  }
+
+  @Override
+  public int getColumns() {
+    return reader.getColumns();
   }
 }
