@@ -1,12 +1,21 @@
 package kjerr.core.hmm;
 
 
+import java.util.List;
+import java.util.Map;
+
 public class Model {
+
+  Map<Integer,List<State>> observationIndex;
+  Map<Integer,State> states;
+  State startState;
+
+
   public State getStartState() {
-    return null;
+    return startState;
   }
 
-  public State[] getStatesForObservation(int observation) {
-    return new State[0];
+  public List<State> getStatesForObservation(int observation) {
+    return observationIndex.get(observation);
   }
 }
