@@ -15,12 +15,14 @@ public class GraphDecoder {
 
   ObjectHeapPriorityQueue<Node> pq =
       new ObjectHeapPriorityQueue<>(
-          (o1, o2) -> (int) (o1.score - o2.score));
+          (o1, o2) -> (int) (o2.score - o1.score));
 
 
   private Model m;
 
   public List<Integer> Decode(Sequence<Integer> s) {
+
+    pq.clear();
 
     Node startState = new Node(m.getStartState(), 0.0d, null, -1);
     pq.enqueue(startState);
@@ -61,7 +63,7 @@ public class GraphDecoder {
     LinkedList<Integer> ll = new LinkedList<>();
 
 
-    while(n.parent != null) {
+    while(n != null) {
       ll.add(n.state.stateId);
       n = n.parent;
     }
