@@ -65,4 +65,8 @@ public class StringInterner {
   public String decode(int i) {
     return reverseMap.get(i);
   }
+
+  public int size() {
+    return count;
+  }
 }

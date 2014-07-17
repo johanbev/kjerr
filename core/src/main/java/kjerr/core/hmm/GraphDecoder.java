@@ -20,7 +20,7 @@ public class GraphDecoder {
 
   private Model m;
 
-  public List<Integer> Decode(Sequence<Integer> s) {
+  public List<Integer> Decode(Sequence<Integer,Integer> s) {
 
     pq.clear();
 
@@ -31,11 +31,11 @@ public class GraphDecoder {
       if (n == null)
         throw new IllegalStateException("Exhausted agenda before end of sequence!");
 
-      if (n.index == s.getColumn(0).length) {
+      if (n.index == s.getWords().length) {
         return getSequenceFromNode(n);
       }
 
-      if(n.index == s.getColumn(0).length -1) {
+      if(n.index == s.getWords().length -1) {
         // at preterminal
         double score = n.score +
             Math.log(n.state.transitions.getProb(m.getEndState().stateId));
@@ -44,7 +44,7 @@ public class GraphDecoder {
         pq.enqueue(endNode);
       }
       else {
-        createTransitionsFrom(n, s.getPoint(0, n.index + 1));
+        createTransitionsFrom(n, s.getWord(n.index + 1));
       }
     }
 

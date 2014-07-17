@@ -12,40 +12,6 @@ import static org.testng.AssertJUnit.assertNull;
 
 public class TTReaderTest {
 
-
-  @Test
-  public void test1Col() throws IOException {
-
-    StringInterner si = new StringInterner();
-    TTReader ttr = new TTReader(1,
-        getClass().getResourceAsStream("/Test.tt"));
-
-    Sequence<String> seq1 = ttr.getSequence();
-
-    assertEquals(seq1.getColumn(0).length, 6);
-    assertEquals(seq1.getPoint(0, 0), "The");
-    assertEquals(seq1.getPoint(0, 1), "cat");
-    assertEquals(seq1.getPoint(0, 2), "in");
-    assertEquals(seq1.getPoint(0, 3), "the");
-    assertEquals(seq1.getPoint(0, 4), "hat");
-    assertEquals(seq1.getPoint(0, 5), ".");
-
-    seq1 = ttr.getSequence();
-
-    assertEquals(seq1.getPoint(0, 0), "The");
-    assertEquals(seq1.getPoint(0, 1), "quick");
-    assertEquals(seq1.getPoint(0, 2), "brown");
-    assertEquals(seq1.getPoint(0, 3), "fox");
-    assertEquals(seq1.getPoint(0, 4), "jumps");
-    assertEquals(seq1.getPoint(0, 5), "over");
-    assertEquals(seq1.getPoint(0, 6), "the");
-    assertEquals(seq1.getPoint(0, 7), "lazy");
-    assertEquals(seq1.getPoint(0, 8), "dog");
-    assertEquals(seq1.getPoint(0, 9), ".");
-
-    assertNull(ttr.getSequence());
-  }
-
   @Test
   public void test2Col() throws IOException {
 
@@ -55,49 +21,49 @@ public class TTReaderTest {
     TTReader ttr = new TTReader(2,
         getClass().getResourceAsStream("/Test2col.tt"));
 
-    Sequence<String> seq1 = ttr.getSequence();
+    Sequence<String, String> seq1 = ttr.getSequence();
 
-    assertEquals(seq1.getColumn(0).length, 6);
-    assertEquals(seq1.getPoint(0, 0), "The");
-    assertEquals(seq1.getPoint(0, 1), "cat");
-    assertEquals(seq1.getPoint(0, 2), "in");
-    assertEquals(seq1.getPoint(0, 3), "the");
-    assertEquals(seq1.getPoint(0, 4), "hat");
-    assertEquals(seq1.getPoint(0, 5), ".");
+    assertEquals(seq1.getWords().length, 6);
+    assertEquals(seq1.getWord(0), "The");
+    assertEquals(seq1.getWord(1), "cat");
+    assertEquals(seq1.getWord(2), "in");
+    assertEquals(seq1.getWord(3), "the");
+    assertEquals(seq1.getWord(4), "hat");
+    assertEquals(seq1.getWord(5), ".");
 
-    assertEquals(seq1.getColumn(1).length, 6);
-    assertEquals(seq1.getPoint(1, 0), "DT");
-    assertEquals(seq1.getPoint(1, 1), "NP");
-    assertEquals(seq1.getPoint(1, 2), "P");
-    assertEquals(seq1.getPoint(1, 3), "DT");
-    assertEquals(seq1.getPoint(1, 4), "NP");
-    assertEquals(seq1.getPoint(1, 5), ".");
+    assertEquals(seq1.getTags().length, 6);
+    assertEquals(seq1.getTag(0), "DT");
+    assertEquals(seq1.getTag(1), "NP");
+    assertEquals(seq1.getTag(2), "P");
+    assertEquals(seq1.getTag(3), "DT");
+    assertEquals(seq1.getTag(4), "NP");
+    assertEquals(seq1.getTag(5), ".");
 
     seq1 = ttr.getSequence();
 
-    assertEquals(seq1.getColumn(0).length, 10);
-    assertEquals(seq1.getPoint(0, 0), "The");
-    assertEquals(seq1.getPoint(0, 1), "quick");
-    assertEquals(seq1.getPoint(0, 2), "brown");
-    assertEquals(seq1.getPoint(0, 3), "fox");
-    assertEquals(seq1.getPoint(0, 4), "jumps");
-    assertEquals(seq1.getPoint(0, 5), "over");
-    assertEquals(seq1.getPoint(0, 6), "the");
-    assertEquals(seq1.getPoint(0, 7), "lazy");
-    assertEquals(seq1.getPoint(0, 8), "dog");
-    assertEquals(seq1.getPoint(0, 9), ".");
+    assertEquals(seq1.getTags().length, 10);
+    assertEquals(seq1.getWord(0), "The");
+    assertEquals(seq1.getWord(1), "quick");
+    assertEquals(seq1.getWord(2), "brown");
+    assertEquals(seq1.getWord(3), "fox");
+    assertEquals(seq1.getWord(4), "jumps");
+    assertEquals(seq1.getWord(5), "over");
+    assertEquals(seq1.getWord(6), "the");
+    assertEquals(seq1.getWord(7), "lazy");
+    assertEquals(seq1.getWord(8), "dog");
+    assertEquals(seq1.getWord(9), ".");
 
-    assertEquals(seq1.getColumn(1).length, 10);
-    assertEquals(seq1.getPoint(1, 0), "DT");
-    assertEquals(seq1.getPoint(1, 1), "AD");
-    assertEquals(seq1.getPoint(1, 2), "AD");
-    assertEquals(seq1.getPoint(1, 3), "NP");
-    assertEquals(seq1.getPoint(1, 4), "VP");
-    assertEquals(seq1.getPoint(1, 5), "P");
-    assertEquals(seq1.getPoint(1, 6), "DT");
-    assertEquals(seq1.getPoint(1, 7), "AD");
-    assertEquals(seq1.getPoint(1, 8), "NP");
-    assertEquals(seq1.getPoint(1, 9), ".");
+    assertEquals(seq1.getTags().length, 10);
+    assertEquals(seq1.getTag(0), "DT");
+    assertEquals(seq1.getTag(1), "AD");
+    assertEquals(seq1.getTag(2), "AD");
+    assertEquals(seq1.getTag(3), "NP");
+    assertEquals(seq1.getTag(4), "VP");
+    assertEquals(seq1.getTag(5), "P");
+    assertEquals(seq1.getTag(6), "DT");
+    assertEquals(seq1.getTag(7), "AD");
+    assertEquals(seq1.getTag(8), "NP");
+    assertEquals(seq1.getTag(9), ".");
 
     assertNull(ttr.getSequence());
   }

@@ -35,14 +35,14 @@ public class WordSuffixEstimator {
   }
 
   public WordSuffixEstimator fit(TTReader corpus) throws IOException {
-    Sequence<String> s;
+    Sequence<String, String> s;
 
     Set<String> tags = new HashSet<>();
 
     while ((s = corpus.getSequence()) != null) {
       for (int i = 0; i < s.size(); i++) {
-        String token = s.getPoint(0, i);
-        String tag = s.getPoint(1, i);
+        String token = s.getWord(i);
+        String tag = s.getTag(i);
 
         tags.add(tag);
 

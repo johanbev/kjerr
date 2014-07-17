@@ -10,15 +10,15 @@ public class Learner {
   Model m;
 
 
-  public void registerSequence(Sequence<Integer> s) {
+  public void registerSequence(Sequence<Integer,Integer> s) {
     // register start state
 
 
     State prevState = m.getStartState();
 
-    for (int i = 0; i < s.getColumn(0).length; i++) {
-      int state = s.getPoint(1,i);
-      int emission = s.getPoint(0, i);
+    for (int i = 0; i < s.getWords().length; i++) {
+      int state = s.getTag(i);
+      int emission = s.getWord(i);
       prevState.transitions.registerObservation(state);
       m.getState(state).emissions.registerObservation(emission);
 
@@ -37,7 +37,7 @@ public class Learner {
 
   public Model train(InternedReader ir) throws IOException {
     m = new Model();
-    Sequence<Integer> seq;
+    Sequence<Integer,Integer> seq;
 
     while((seq = ir.getSequence()) != null) {
       registerSequence(seq);

@@ -4,8 +4,6 @@ import kjerr.core.io.InternedReader;
 import kjerr.core.io.TTReader;
 import org.testng.annotations.Test;
 
-import java.io.FileInputStream;
-
 public class LearnerTest {
 
   @Test
@@ -19,10 +17,6 @@ public class LearnerTest {
 
     GraphDecoder gd = new GraphDecoder(m);
 
-    InternedReader ir2 =
-        new InternedReader(new TTReader(2, new FileInputStream("F:\\src\\mulm\\eval\\wsj\\wsj.tt")));
-
-    m = l.train(ir2);
 
 
 
