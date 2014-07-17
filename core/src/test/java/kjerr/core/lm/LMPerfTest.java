@@ -8,9 +8,9 @@ import java.io.FileInputStream;
 public class LMPerfTest {
   public static void main(String[] args) throws Exception {
     InternedReader tt = new InternedReader(
-            new TTReader(1, new FileInputStream("G:\\scratch\\corp\\corp\\6M.wikiwords.corp")));
+        new TTReader(1, new FileInputStream("G:\\scratch\\corp\\corp\\6M.wikiwords.corp")));
 
-    NGramModel ng = new NGramModel(3);
+    NGramModel ng = new NGramModel(4);
 
     int mb = 1024 * 1024;
 

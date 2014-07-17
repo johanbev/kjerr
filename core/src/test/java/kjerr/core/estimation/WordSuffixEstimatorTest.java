@@ -10,7 +10,7 @@ public class WordSuffixEstimatorTest {
   @Test
   public void testFit() throws Exception {
     TTReader ttr = new TTReader(2,
-            getClass().getResourceAsStream("/suffix.tt"));
+        getClass().getResourceAsStream("/suffix.tt"));
 
     WordSuffixEstimator est = new WordSuffixEstimator(3, 0.9);
     est.fit(ttr);

@@ -6,7 +6,7 @@ import kjerr.core.io.DatasetReader;
 import java.io.IOException;
 
 public class PerceptronExample {
-    public static void main(String[] args) throws IOException {
-        DataSet iris = DatasetReader.loadIris();
-    }
+  public static void main(String[] args) throws IOException {
+    DataSet iris = DatasetReader.loadIris();
+  }
 }

@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Model {
 
-  Map<Integer,List<State>> observationIndex;
-  Map<Integer,State> states;
+  Map<Integer, List<State>> observationIndex;
+  Map<Integer, State> states;
   State startState;
 
 

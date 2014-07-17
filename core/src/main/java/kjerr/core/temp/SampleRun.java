@@ -8,14 +8,14 @@ import kjerr.core.perceptron.StandardScaler;
 import java.io.IOException;
 
 public class SampleRun {
-    public void main(String[] args) throws IOException {
-        DataSet iris = DatasetReader.loadIris();
-        Data x = iris.X();
+  public void main(String[] args) throws IOException {
+    DataSet iris = DatasetReader.loadIris();
+    Data x = iris.X();
 
-        StandardScaler scaler = new StandardScaler();
-        scaler.fit(x);
-        Data scaledX = scaler.transform(x);
+    StandardScaler scaler = new StandardScaler();
+    scaler.fit(x);
+    Data scaledX = scaler.transform(x);
 
-        System.out.println("Finito!");
-    }
+    System.out.println("Finito!");
+  }
 }

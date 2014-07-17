@@ -12,18 +12,17 @@ import java.util.regex.Pattern;
 
 
 public class TTReader {
+  BufferedReader br;
+  Pattern ttTokenizer = Pattern.compile("\\s+");
+  InputStream stream;
+  private int columns;
+
   public TTReader(int columns, InputStream stream) throws IOException {
     this.columns = columns;
     this.stream = stream;
 
     prepareReader();
   }
-
-  private int columns;
-
-  BufferedReader br;
-
-  Pattern ttTokenizer = Pattern.compile("\\s+");
 
   private void prepareReader() throws IOException {
     br = new BufferedReader(new InputStreamReader(stream));
@@ -69,8 +68,6 @@ public class TTReader {
 
     return new Sequence<>(seq);
   }
-
-  InputStream stream;
 
   public int getColumns() {
     return columns;

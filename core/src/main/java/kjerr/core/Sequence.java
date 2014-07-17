@@ -5,16 +5,16 @@ public class Sequence<T> {
 
   T[][] file;
 
+  public Sequence(T[][] file) {
+    this.file = file;
+  }
+
   public T getPoint(int x, int y) {
     return file[x][y];
   }
 
   public T[] getColumn(int x) {
     return file[x];
-  }
-
-  public Sequence(T[][] file) {
-    this.file = file;
   }
 
   public int size() {
