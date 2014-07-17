@@ -4,7 +4,13 @@ package kjerr.core.hmm;
 import it.unimi.dsi.fastutil.objects.ObjectHeapPriorityQueue;
 import kjerr.core.Sequence;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 public class GraphDecoder {
+
+
 
 
   ObjectHeapPriorityQueue<Node> pq =
@@ -14,9 +20,9 @@ public class GraphDecoder {
 
   private Model m;
 
-  public int[] Decode(Sequence<Integer> s) {
+  public List<Integer> Decode(Sequence<Integer> s) {
 
-    Node startState = new Node(m.getStartState(), 0.0d, null, 0);
+    Node startState = new Node(m.getStartState(), 0.0d, null, -1);
     pq.enqueue(startState);
 
     for (Node n = pq.dequeue(); ; n = pq.dequeue()) {
@@ -27,26 +33,51 @@ public class GraphDecoder {
         return getSequenceFromNode(n);
       }
 
-      createTransitionsFrom(n, s.getPoint(n.index++, 1));
+      if(n.index == s.getColumn(0).length -1) {
+        // at preterminal
+        double score = n.score +
+            Math.log(n.state.transitions.getProb(m.getEndState().stateId));
 
+        Node endNode = new Node(m.getEndState(), score, n, n.index + 1);
+        pq.enqueue(endNode);
+      }
+      else {
+        createTransitionsFrom(n, s.getPoint(0, n.index + 1));
+      }
     }
 
 
   }
 
-  private int[] getSequenceFromNode(Node n) {
-    return null;
+  public GraphDecoder(Model m) {
+    this.m = m;
+  }
+
+
+  private List<Integer>  getSequenceFromNode(Node n) {
+
+
+
+    LinkedList<Integer> ll = new LinkedList<>();
+
+
+    while(n.parent != null) {
+      ll.add(n.state.stateId);
+      n = n.parent;
+    }
+
+    Collections.reverse(ll);
+    return ll;
   }
 
   private void createTransitionsFrom(Node n, int observation) {
-
     for (State s : m.getStatesForObservation(observation)) {
       double score =
           Math.log(s.emissions.getProb(observation))
               + Math.log(n.state.transitions.getProb(s.stateId))
               + n.score;
 
-      Node next = new Node(s, score, n, n.index++);
+      Node next = new Node(s, score, n, n.index + 1);
 
       pq.enqueue(next);
     }

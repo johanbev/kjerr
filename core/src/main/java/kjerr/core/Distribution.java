@@ -11,6 +11,11 @@ public class Distribution {
 
   public void registerObservation(int observation) {
     fmap.put(observation, fmap.getOrDefault(observation, 0) + 1);
+    totalCount++;
+  }
+
+  public Map<Integer, Integer> getBackingMap() {
+    return fmap;
   }
 
   public double getProb(int observation) {

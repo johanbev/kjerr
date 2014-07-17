@@ -8,4 +8,10 @@ public class State {
   Distribution emissions;
   Distribution transitions;
 
+
+  public State() {
+    emissions = new Distribution();
+    transitions = new Distribution();
+  }
+
 }
