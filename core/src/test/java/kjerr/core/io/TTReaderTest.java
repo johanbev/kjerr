@@ -53,7 +53,7 @@ public class TTReaderTest {
     StringInterner tags = new StringInterner();
 
     TTReader ttr = new TTReader(2,
-        getClass().getResourceAsStream("/Test2Col.tt"));
+        getClass().getResourceAsStream("/Test2col.tt"));
 
     Sequence<String> seq1 = ttr.getSequence();
 

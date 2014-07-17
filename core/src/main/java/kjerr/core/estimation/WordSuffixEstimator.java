@@ -12,12 +12,6 @@ public class WordSuffixEstimator {
   private List<Map<String, Map<String, Double>>> probMaps;
   private List<Map<String, Map<String, Integer>>> countMaps;
 
-  static class Parameters {
-    public int suffixLength;
-    public double decay;
-
-  }
-
   public WordSuffixEstimator(int suffixLength, double decay) {
     parameters = new Parameters();
     parameters.suffixLength = suffixLength;
@@ -30,6 +24,10 @@ public class WordSuffixEstimator {
       this.countMaps.add(i, new HashMap<>());
       this.probMaps.add(i, new HashMap<>());
     }
+  }
+
+  public static String getSuffix(String str, int len) {
+    return str.substring(str.length() - len);
   }
 
   public List<String> getTags() {
@@ -48,7 +46,7 @@ public class WordSuffixEstimator {
 
         tags.add(tag);
 
-        for (int j = 0; j < parameters.suffixLength; j ++) {
+        for (int j = 0; j < parameters.suffixLength; j++) {
           if (token.length() < (j + 1)) {
             break;
           }
@@ -80,12 +78,12 @@ public class WordSuffixEstimator {
         Map<String, Double> tagProbMap = new HashMap<>();
         probMap.put(suffix, tagProbMap);
 
-        int total = tagCountMap.values().stream().mapToInt((x)->x).sum();
+        int total = tagCountMap.values().stream().mapToInt((x) -> x).sum();
 
         for (Map.Entry<String, Integer> tagEntry : tagCountMap.entrySet()) {
           String tag = tagEntry.getKey();
           int count = tagEntry.getValue();
-          tagProbMap.put(tag, count / (double)total);
+          tagProbMap.put(tag, count / (double) total);
         }
       }
     }
@@ -97,7 +95,7 @@ public class WordSuffixEstimator {
     double[] prob = new double[this.tags.size()];
 
     for (int i = Math.min(parameters.suffixLength, token.length()); i > 0; i--) {
-      Map<String, Double> tagMap = this.probMaps.get(i-1).get(getSuffix(token, i));
+      Map<String, Double> tagMap = this.probMaps.get(i - 1).get(getSuffix(token, i));
 
       if (tagMap == null) {
         continue;
@@ -108,8 +106,7 @@ public class WordSuffixEstimator {
 
         if (prob[j] == 0d) {
           prob[j] = p;
-        }
-        else {
+        } else {
           prob[j] = (prob[j] + (parameters.decay * p)) / (1 + parameters.decay);
         }
       }
@@ -118,7 +115,9 @@ public class WordSuffixEstimator {
     return prob;
   }
 
-  public static String getSuffix(String str, int len) {
-    return str.substring(str.length() - len);
+  static class Parameters {
+    public int suffixLength;
+    public double decay;
+
   }
 }

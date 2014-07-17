@@ -27,16 +27,15 @@ public class CountTree {
 
     prev.setCount(prev.getCount() + 1);
 
-    for(int i : seq) {
+    for (int i : seq) {
       CountTreeNode next = prev.getChildren().get(i);
 
-      if(next == null) {
+      if (next == null) {
         next = new CountTreeNode();
-        prev.getChildren().put(i,next);
+        prev.getChildren().put(i, next);
         next.count = 1;
-      }
-      else {
-        next.setCount(next.getCount()+1);
+      } else {
+        next.setCount(next.getCount() + 1);
       }
 
       prev = next;
@@ -102,10 +101,10 @@ public class CountTree {
 
   public double querySequence(int[] sequence) {
     CountTreeNode x = findButlast(sequence);
-    if(x == null)
+    if (x == null)
       return 0.0d;
-    CountTreeNode y = x.getChildren().get(sequence[sequence.length-1]);
-    return y != null ? y.getCount() / (double)x.getCount() : 0.0d;
+    CountTreeNode y = x.getChildren().get(sequence[sequence.length - 1]);
+    return y != null ? y.getCount() / (double) x.getCount() : 0.0d;
   }
 
   public double queryUnigram(int t1) {
@@ -146,17 +145,17 @@ public class CountTree {
   /**
    * Finds the parent node to the last in sequence.
    * findButlast(x1,...,xn-1,xn) === find(x1...xn-1)
-   *
+   * <p>
    * This could be done by an array offsetting on @see find but there is
    * no way to do that easily in java.
    *
    * @param sequence The path to lookup
    * @return The count tree node pointing to the last node in
-   *         the sequence
+   * the sequence
    */
-  public CountTreeNode findButlast(int sequence[] ) {
+  public CountTreeNode findButlast(int sequence[]) {
     CountTreeNode target = getRoot();
-    for (int i = 0; i < sequence.length-1;i++) {
+    for (int i = 0; i < sequence.length - 1; i++) {
       target = target.children.get(sequence[i]);
       if (target == null) {
         return null;
@@ -169,10 +168,11 @@ public class CountTree {
 
   /**
    * Finds the CountTreeNode at the end of the sequence
+   *
    * @param sequence The path to lookup
    * @return The CountTreeNode
    */
-  public CountTreeNode find(int sequence[] ) {
+  public CountTreeNode find(int sequence[]) {
     CountTreeNode target = getRoot();
     for (int i : sequence) {
       target = target.children.get(i);

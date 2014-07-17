@@ -12,14 +12,9 @@ import java.util.Map;
  */
 public class StringInterner {
 
+  protected int count = 0;
   Map<String, Integer> forwardMap;
   Map<Integer, String> reverseMap;
-
-  public int getCount() {
-    return count;
-  }
-
-  protected int count = 0;
 
   /**
    * Construct StringInterner with default options
@@ -27,6 +22,10 @@ public class StringInterner {
   public StringInterner() {
     forwardMap = new HashMap<>(256);
     reverseMap = new HashMap<>(256);
+  }
+
+  public int getCount() {
+    return count;
   }
 
   /**

@@ -42,9 +42,9 @@ public class NGramModel {
         getBackingCountTree().addBigram(ngram[0], ngram[1]);
       if (ngram.length == 1)
         getBackingCountTree().addUnigram(ngram[0]);
-     else {
+      else {
         getBackingCountTree().addSequence(ngram);
-     }
+      }
     }
   }
 
