@@ -5,41 +5,38 @@ import kjerr.core.StringInterner;
 
 import java.io.IOException;
 
-public class InternedReader implements CorpusReader<Integer> {
+public class InternedReader implements CorpusReader<Integer, Integer> {
   private TTReader reader;
 
-  private StringInterner[] interners;
+  private StringInterner wordInterner;
+  private StringInterner tagInterner;
 
   public InternedReader(TTReader reader) {
     this.reader = reader;
-    this.interners = new StringInterner[reader.getColumns()];
 
-    for (int i = 0; i < reader.getColumns(); i++) {
-      this.interners[i] = new StringInterner();
-    }
+    wordInterner = new StringInterner();
+    tagInterner = new StringInterner();
   }
 
-  public StringInterner[] getInterners() {
-    return interners;
+  public StringInterner getWordInterner() {
+    return wordInterner;
   }
 
-  @Override
-  public Sequence<Integer> getSequence() throws IOException {
-    Sequence<String> innerSeq = reader.getSequence();
-
-    Integer[][] seq = new Integer[reader.getColumns()][innerSeq.size()];
-
-    for (int i = 0; i < reader.getColumns(); i++) {
-      for (int j = 0; j < innerSeq.size(); j++) {
-        seq[i][j] = interners[i].encode(innerSeq.getPoint(i, j));
-      }
-    }
-
-    return new Sequence<>(seq);
+  public StringInterner getTagInterner() {
+    return tagInterner;
   }
 
   @Override
-  public int getColumns() {
-    return reader.getColumns();
+  public Sequence<Integer, Integer> getSequence() throws IOException {
+    Sequence<String, String> innerSeq = reader.getSequence();
+
+    Integer[] words = new Integer[innerSeq.size()];
+    Integer[] tags = new Integer[innerSeq.size()];
+    for (int i = 0; i < innerSeq.size(); i++) {
+      words[i] = wordInterner.intern(innerSeq.getWord(i));
+      tags[i] = tagInterner.intern(innerSeq.getTag(i));
+    }
+
+    return new Sequence<>(words, tags);
   }
 }

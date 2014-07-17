@@ -4,8 +4,6 @@ import kjerr.core.Sequence;
 
 import java.io.IOException;
 
-public interface CorpusReader<T> {
-  Sequence<T> getSequence() throws IOException;
-
-  int getColumns();
+public interface CorpusReader<W, T> {
+  Sequence<W, T> getSequence() throws IOException;
 }

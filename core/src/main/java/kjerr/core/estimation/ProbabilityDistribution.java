@@ -1,10 +1,6 @@
 package kjerr.core.estimation;
 
 
-import kjerr.core.Sequence;
-import kjerr.core.io.CorpusReader;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,18 +24,6 @@ public class ProbabilityDistribution<T> {
   public void addOutcomes(T[] outcomes) {
     for (T outcome : outcomes) {
       addOutcome(outcome);
-    }
-  }
-
-  public void addOutcomes(Sequence<T> seq, int col) {
-    addOutcomes(seq.getColumn(col));
-  }
-
-  public void addOutcomes(CorpusReader<T> reader, int column) throws IOException {
-    Sequence<T> seq;
-
-    while ((seq = reader.getSequence()) != null) {
-      addOutcomes(seq, column);
     }
   }
 

@@ -26,7 +26,7 @@ public class LMPerfTest {
     System.out.println("Begin populating LM");
     for (; ; ) {
       i++;
-      ng.addSequence(tt.getSequence().getColumn(0));
+      ng.addSequence(tt.getSequence().getWords());
       if (i == 500000) {
         long spentTime = (System.currentTimeMillis() - time);
         System.out.println(i + " sequences in " + (System.currentTimeMillis() - time) + "ms");

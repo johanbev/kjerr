@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 
-public class TTReader implements CorpusReader<String> {
+public class TTReader implements CorpusReader<String, String> {
   BufferedReader br;
   Pattern ttTokenizer = Pattern.compile("\\s+");
   InputStream stream;
@@ -29,16 +29,9 @@ public class TTReader implements CorpusReader<String> {
   }
 
   @Override
-  public Sequence<String> getSequence() throws IOException {
-    List<List<String>> buffer = new ArrayList<>(20);
-
-    for (int i = 0; i < columns; i++) {
-      buffer.add(i, new ArrayList<>(20));
-    }
-
-    for (int i = 0; i < columns; i++) {
-      buffer.get(i).clear();
-    }
+  public Sequence<String, String> getSequence() throws IOException {
+    List<String> words = new ArrayList<>(20);
+    List<String> tags = new ArrayList<>(20);
 
     String s = br.readLine();
 
@@ -49,29 +42,23 @@ public class TTReader implements CorpusReader<String> {
     while (s != null && !s.isEmpty()) {
       int i = -1;
       String[] splits = ttTokenizer.split(s);
-      for (int j = 0; j < columns; j++) {
-        i++;
-        buffer.get(i).add(splits[j]);
+
+      if (splits.length != 2) {
+        throw new IOException();
       }
+
+      words.add(splits[0].trim());
+      tags.add(splits[1].trim());
 
       s = br.readLine();
     }
 
-    if (buffer.get(0).size() == 0) { // No input read, try again
+    if (words.size() == 0) { // No input read, try again
       return getSequence();
     }
 
     String[][] seq = new String[columns][];
 
-    for (int i = 0; i < columns; i++) {
-      seq[i] = buffer.get(i).toArray(new String[0]);
-    }
-
-    return new Sequence<>(seq);
-  }
-
-  @Override
-  public int getColumns() {
-    return columns;
+    return new Sequence<>(words.toArray(new String[words.size()]), tags.toArray(new String[tags.size()]));
   }
 }

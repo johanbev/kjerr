@@ -8,7 +8,7 @@ public class ConditionalProbabilityDistributionTest {
 
   @Test
   public void testAddOutcomes() throws Exception {
-    ConditionalProbabilityDistribution<String> dist = new ConditionalProbabilityDistribution<>();
+    ConditionalProbabilityDistribution<String, String> dist = new ConditionalProbabilityDistribution<>();
     dist.addOutcomes(
             new String[]{"x", "y", "y", "x", "z", "x", "y", "x"},
             new String[]{"1", "2", "1", "2", "1", "1", "1", "1"});

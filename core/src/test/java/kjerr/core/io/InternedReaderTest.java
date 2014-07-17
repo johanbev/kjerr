@@ -12,50 +12,53 @@ public class InternedReaderTest {
   public void testGetSequence() throws Exception {
     InternedReader t = new InternedReader(new TTReader(2, getClass().getResourceAsStream("/Test2Col.tt")));
 
-    Sequence<Integer> seq1 = t.getSequence();
-    Sequence<Integer> seq2 = t.getSequence();
+    Sequence<Integer, Integer> seq1 = t.getSequence();
+    Sequence<Integer, Integer> seq2 = t.getSequence();
 
-    StringInterner words = t.getInterners()[0];
-    StringInterner tags = t.getInterners()[1];
+    StringInterner wordInterner = t.getWordInterner();
+    StringInterner tagInterner = t.getTagInterner();
 
-    assertEquals(seq1.getColumn(0).length, 6);
-    assertEquals((int) seq1.getPoint(0, 0), words.encode("The"));
-    assertEquals((int) seq1.getPoint(0, 1), words.encode("cat"));
-    assertEquals((int) seq1.getPoint(0, 2), words.encode("in"));
-    assertEquals((int) seq1.getPoint(0, 3), words.encode("the"));
-    assertEquals((int) seq1.getPoint(0, 4), words.encode("hat"));
-    assertEquals((int) seq1.getPoint(0, 5), words.encode("."));
+    assertEquals(13, wordInterner.size());
+    assertEquals(6, tagInterner.size());
 
-    assertEquals((int) seq1.getColumn(1).length, 6);
-    assertEquals((int) seq1.getPoint(1, 0), tags.encode("DT"));
-    assertEquals((int) seq1.getPoint(1, 1), tags.encode("NP"));
-    assertEquals((int) seq1.getPoint(1, 2), tags.encode("P"));
-    assertEquals((int) seq1.getPoint(1, 3), tags.encode("DT"));
-    assertEquals((int) seq1.getPoint(1, 4), tags.encode("NP"));
-    assertEquals((int) seq1.getPoint(1, 5), tags.encode("."));
+    assertEquals(seq1.getWords().length, 6);
+    assertEquals((int) seq1.getWord(0), wordInterner.encode("The"));
+    assertEquals((int) seq1.getWord(1), wordInterner.encode("cat"));
+    assertEquals((int) seq1.getWord(2), wordInterner.encode("in"));
+    assertEquals((int) seq1.getWord(3), wordInterner.encode("the"));
+    assertEquals((int) seq1.getWord(4), wordInterner.encode("hat"));
+    assertEquals((int) seq1.getWord(5), wordInterner.encode("."));
 
-    assertEquals((int) seq2.getColumn(0).length, 10);
-    assertEquals((int) seq2.getPoint(0, 0), words.encode("The"));
-    assertEquals((int) seq2.getPoint(0, 1), words.encode("quick"));
-    assertEquals((int) seq2.getPoint(0, 2), words.encode("brown"));
-    assertEquals((int) seq2.getPoint(0, 3), words.encode("fox"));
-    assertEquals((int) seq2.getPoint(0, 4), words.encode("jumps"));
-    assertEquals((int) seq2.getPoint(0, 5), words.encode("over"));
-    assertEquals((int) seq2.getPoint(0, 6), words.encode("the"));
-    assertEquals((int) seq2.getPoint(0, 7), words.encode("lazy"));
-    assertEquals((int) seq2.getPoint(0, 8), words.encode("dog"));
-    assertEquals((int) seq2.getPoint(0, 9), words.encode("."));
+    assertEquals((int) seq1.getTags().length, 6);
+    assertEquals((int) seq1.getTag(0), tagInterner.encode("DT"));
+    assertEquals((int) seq1.getTag(1), tagInterner.encode("NP"));
+    assertEquals((int) seq1.getTag(2), tagInterner.encode("P"));
+    assertEquals((int) seq1.getTag(3), tagInterner.encode("DT"));
+    assertEquals((int) seq1.getTag(4), tagInterner.encode("NP"));
+    assertEquals((int) seq1.getTag(5), tagInterner.encode("."));
 
-    assertEquals((int) seq2.getColumn(1).length, 10);
-    assertEquals((int) seq2.getPoint(1, 0), tags.encode("DT"));
-    assertEquals((int) seq2.getPoint(1, 1), tags.encode("AD"));
-    assertEquals((int) seq2.getPoint(1, 2), tags.encode("AD"));
-    assertEquals((int) seq2.getPoint(1, 3), tags.encode("NP"));
-    assertEquals((int) seq2.getPoint(1, 4), tags.encode("VP"));
-    assertEquals((int) seq2.getPoint(1, 5), tags.encode("P"));
-    assertEquals((int) seq2.getPoint(1, 6), tags.encode("DT"));
-    assertEquals((int) seq2.getPoint(1, 7), tags.encode("AD"));
-    assertEquals((int) seq2.getPoint(1, 8), tags.encode("NP"));
-    assertEquals((int) seq2.getPoint(1, 9), tags.encode("."));
+    assertEquals((int) seq2.getWords().length, 10);
+    assertEquals((int) seq2.getWord(0), wordInterner.encode("The"));
+    assertEquals((int) seq2.getWord(1), wordInterner.encode("quick"));
+    assertEquals((int) seq2.getWord(2), wordInterner.encode("brown"));
+    assertEquals((int) seq2.getWord(3), wordInterner.encode("fox"));
+    assertEquals((int) seq2.getWord(4), wordInterner.encode("jumps"));
+    assertEquals((int) seq2.getWord(5), wordInterner.encode("over"));
+    assertEquals((int) seq2.getWord(6), wordInterner.encode("the"));
+    assertEquals((int) seq2.getWord(7), wordInterner.encode("lazy"));
+    assertEquals((int) seq2.getWord(8), wordInterner.encode("dog"));
+    assertEquals((int) seq2.getWord(9), wordInterner.encode("."));
+
+    assertEquals((int) seq2.getTags().length, 10);
+    assertEquals((int) seq2.getTag(0), tagInterner.encode("DT"));
+    assertEquals((int) seq2.getTag(1), tagInterner.encode("AD"));
+    assertEquals((int) seq2.getTag(2), tagInterner.encode("AD"));
+    assertEquals((int) seq2.getTag(3), tagInterner.encode("NP"));
+    assertEquals((int) seq2.getTag(4), tagInterner.encode("VP"));
+    assertEquals((int) seq2.getTag(5), tagInterner.encode("P"));
+    assertEquals((int) seq2.getTag(6), tagInterner.encode("DT"));
+    assertEquals((int) seq2.getTag(7), tagInterner.encode("AD"));
+    assertEquals((int) seq2.getTag(8), tagInterner.encode("NP"));
+    assertEquals((int) seq2.getTag(9), tagInterner.encode("."));
   }
 }

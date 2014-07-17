@@ -14,7 +14,7 @@ public class GraphDecoder {
 
   private Model m;
 
-  public int[] Decode(Sequence<Integer> s) {
+  public int[] Decode(Sequence<Integer, Integer> s) {
 
     Node startState = new Node(m.getStartState(), 0.0d, null, 0);
     pq.enqueue(startState);
@@ -23,11 +23,11 @@ public class GraphDecoder {
       if (n == null)
         throw new IllegalStateException("Exhausted agenda before end of sequence!");
 
-      if (n.index == s.getColumn(0).length) {
+      if (n.index == s.getWords().length) {
         return getSequenceFromNode(n);
       }
 
-      createTransitionsFrom(n, s.getPoint(n.index++, 1));
+      createTransitionsFrom(n, s.getWord(n.index++));
 
     }
 

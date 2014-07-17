@@ -1,53 +1,38 @@
 package kjerr.core.estimation;
 
-import kjerr.core.Sequence;
-import kjerr.core.io.CorpusReader;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ConditionalProbabilityDistribution<T> {
-  private Map<Pair<T, T>, Integer> counts = new HashMap<>();
-  private Map<Pair<T, T>, Pair<Integer, Integer>> outcomeToProb = new HashMap<>();
-  private List<T> probToOutcome = new ArrayList<T>();
-  private List<T> probToCondition = new ArrayList<T>();
+public class ConditionalProbabilityDistribution<O, C> {
+  private Map<Pair<O, C>, Integer> counts = new HashMap<>();
+  private Map<Pair<O, C>, Pair<Integer, Integer>> outcomeToProb = new HashMap<>();
+  private List<O> probToOutcome = new ArrayList<O>();
+  private List<C> probToCondition = new ArrayList<C>();
   private double[][] probabilites;
   private double[][] logProbabilities;
 
   boolean countsAdded = false;
 
-  public void addOutcome(T outcome, T condition) {
-    ImmutablePair<T, T> key = new ImmutablePair<>(outcome, condition);
+  public void addOutcome(O outcome, C condition) {
+    ImmutablePair<O, C> key = new ImmutablePair<>(outcome, condition);
     counts.put(key, counts.getOrDefault(key, 0) + 1);
 
     countsAdded = true;
   }
 
-  public void addOutcomes(T[] outcomes, T[] conditions) {
+  public void addOutcomes(O[] outcomes, C[] conditions) {
     if (outcomes.length != conditions.length) {
       throw new IllegalArgumentException();
     }
 
     for (int i = 0; i < outcomes.length; i++) {
       addOutcome(outcomes[i], conditions[i]);
-    }
-  }
-
-  public void addOutcomes(Sequence<T> seq, int outcomeCol, int conditionCol) {
-    addOutcomes(seq.getColumn(outcomeCol), seq.getColumn(conditionCol));
-  }
-
-  public void addOutcomes(CorpusReader<T> reader, int outcomeCol, int conditionCol) throws IOException {
-    Sequence<T> seq;
-
-    while ((seq = reader.getSequence()) != null) {
-      addOutcomes(seq, outcomeCol, conditionCol);
     }
   }
 
@@ -60,8 +45,8 @@ public class ConditionalProbabilityDistribution<T> {
       return;
     }
 
-    List<T> outcomes = counts.keySet().stream().map(Pair::getLeft).collect(Collectors.toList());
-    List<T> conditions = counts.keySet().stream().map(Pair::getRight).collect(Collectors.toList());
+    List<O> outcomes = counts.keySet().stream().map(Pair::getLeft).collect(Collectors.toList());
+    List<C> conditions = counts.keySet().stream().map(Pair::getRight).collect(Collectors.toList());
 
     probToOutcome = new ArrayList<>(outcomes);
     probToCondition = new ArrayList<>(conditions);
@@ -70,7 +55,7 @@ public class ConditionalProbabilityDistribution<T> {
 
     long[] total = new long[probToCondition.size()];
 
-    for (Map.Entry<Pair<T, T>, Integer> e : counts.entrySet()) {
+    for (Map.Entry<Pair<O, C>, Integer> e : counts.entrySet()) {
       int index = probToCondition.indexOf(e.getKey().getRight());
       total[index] += e.getValue();
     }
@@ -81,7 +66,7 @@ public class ConditionalProbabilityDistribution<T> {
     for (int i = 0; i < probToOutcome.size(); i++) {
       for (int j = 0; i < probToCondition.size(); i++) {
         outcomeToProb.put(
-                new ImmutablePair<T, T>(probToOutcome.get(i), probToCondition.get(j)),
+                new ImmutablePair<O, C>(probToOutcome.get(i), probToCondition.get(j)),
                 new ImmutablePair<>(i, j));
 
         probabilites[i][j] =
@@ -97,7 +82,7 @@ public class ConditionalProbabilityDistribution<T> {
     return probabilites;
   }
 
-  public double probability(T outcome, T condition) {
+  public double probability(O outcome, C condition) {
     double[][] density = density(); // make sure density is calculated
     Pair<Integer, Integer> index = outcomeToProb.get(new ImmutablePair<>(outcome, condition));
 
@@ -114,7 +99,7 @@ public class ConditionalProbabilityDistribution<T> {
     return logProbabilities;
   }
 
-  public double logProbability(T outcome, T condition) {
+  public double logProbability(O outcome, C condition) {
     double[][] logDensity = logDensity(); // make sure density is calculated
     Pair<Integer, Integer> index = outcomeToProb.get(new ImmutablePair<>(outcome, condition));
 
@@ -125,7 +110,7 @@ public class ConditionalProbabilityDistribution<T> {
     return logDensity[index.getLeft()][index.getRight()];
   }
 
-  public Pair<Integer, Integer> outcomeIndex(T outcome, T condition) {
+  public Pair<Integer, Integer> outcomeIndex(O outcome, C condition) {
     return outcomeToProb.get(new ImmutablePair<>(outcome, condition));
   }
 }

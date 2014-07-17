@@ -1,23 +1,40 @@
 package kjerr.core;
 
-public class Sequence<T> {
-  int rank;
+public class Sequence<W, T> {
+  W[] words;
+  T[] tags;
 
-  T[][] file;
+  public Sequence(W[] words, T[] tags) {
+    if (words.length != tags.length) {
+      throw new IllegalArgumentException();
+    }
 
-  public Sequence(T[][] file) {
-    this.file = file;
+    this.words = words;
+    this.tags = tags;
+
+//    this.words = (W[])(new Object[words.length]);
+//    System.arraycopy(words, 0, this.words, 0, words.length);
+//    this.tags = (T[])(new Object[tags.length]);
+//    System.arraycopy(tags, 0, this.tags, 0, tags.length);
   }
 
-  public T getPoint(int x, int y) {
-    return file[x][y];
+  public W[] getWords() {
+    return words;
   }
 
-  public T[] getColumn(int x) {
-    return file[x];
+  public W getWord(int i) {
+    return words[i];
+  }
+
+  public T[] getTags() {
+    return tags;
+  }
+
+  public T getTag(int i) {
+    return tags[i];
   }
 
   public int size() {
-    return file[0].length;
+    return words.length;
   }
 }
